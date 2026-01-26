@@ -1,5 +1,6 @@
 import React from 'react';
 import { useCart } from '../../Context/cartContext';
+import toast from 'react-hot-toast';
 
 export const BookCard = ({ book, onClick }) => {
   const { addToCart } = useCart();
@@ -7,22 +8,22 @@ export const BookCard = ({ book, onClick }) => {
   const handleAddToCart = (e) => {
     e.stopPropagation();
     addToCart(book);
-    alert(`${book.title} added to cart!`);
+    toast.success(`${book.title} added to cart!`);
   };
 
   return (
-    <div 
+    <div
       className="group relative bg-white rounded-xl border border-gray-200 transition-all duration-300 hover:border-indigo-500 hover:shadow-md cursor-pointer overflow-hidden"
       onClick={() => onClick(book)}
     >
       {/* Image Container */}
       <div className="relative aspect-[4/5] overflow-hidden bg-gray-100">
-        <img 
-          src={book.image} 
+        <img
+          src={book.image}
           alt={book.title}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
-        
+
         {/* Rating Badge in yellow*/}
         <div className="absolute top-2 right-2 bg-white px-2 py-1 rounded shadow-sm border border-gray-100 flex items-center gap-1">
           <span className="text-yellow-500 text-xs">★</span>
@@ -51,9 +52,9 @@ export const BookCard = ({ book, onClick }) => {
               <span className="text-xs font-semibold mr-0.5">Rs.</span>{book.price}
             </span>
           </div>
-          
+
           {/* Add to Cart Button */}
-          <button 
+          <button
             className="flex items-center justify-center w-8 h-8 rounded-lg bg-gray-900 text-white hover:bg-indigo-600 transition-colors"
             onClick={handleAddToCart}
           >

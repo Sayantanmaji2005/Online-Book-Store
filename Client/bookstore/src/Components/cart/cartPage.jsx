@@ -1,9 +1,22 @@
 import React from 'react';
 import { CartItem } from './cartItem';
 import { useCart } from '../../Context/cartContext';
+import toast from 'react-hot-toast';
 
 export const CartPage = ({ onCheckout, onBackToStore }) => {
   const { cartItems, removeFromCart, updateQuantity, getTotalPrice } = useCart();
+
+  const handleRemove = (id, title) => {
+    removeFromCart(id);
+    toast.error(`${title} removed from cart`);
+  };
+
+  const handleUpdateQuantity = (id, quantity, title) => {
+    updateQuantity(id, quantity);
+    if (quantity === 0) {
+      toast.error(`${title} removed from cart`);
+    }
+  };
 
   const totalPrice = getTotalPrice();
 
@@ -34,8 +47,8 @@ export const CartPage = ({ onCheckout, onBackToStore }) => {
                 <CartItem
                   key={item.id}
                   item={item}
-                  onRemove={removeFromCart}
-                  onUpdateQuantity={updateQuantity}
+                  onRemove={() => handleRemove(item.id, item.title)}
+                  onUpdateQuantity={(id, q) => handleUpdateQuantity(id, q, item.title)}
                 />
               ))
             ) : (

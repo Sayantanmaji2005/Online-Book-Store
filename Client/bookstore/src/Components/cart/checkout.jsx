@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useCart } from '../../Context/cartContext';
+import toast from 'react-hot-toast';
 
 export const Checkout = ({ onBackToCart }) => {
   const { cartItems, getTotalPrice, clearCart } = useCart();
@@ -22,11 +23,11 @@ export const Checkout = ({ onBackToCart }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (Object.values(formData).every((field) => field.trim())) {
-      alert('Order placed successfully!');
+      toast.success('Order placed successfully! 📚');
       clearCart();
       onBackToCart();
     } else {
-      alert('Please fill in all fields');
+      toast.error('Please fill in all fields');
     }
   };
 
