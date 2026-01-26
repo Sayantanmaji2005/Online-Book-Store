@@ -1,31 +1,36 @@
 import React, { useState } from 'react';
+import { useAuth } from '../../Context/authContext';
 
-export const Navbar = ({ cartCount = 0, onCategoryChange, onCartClick }) => {
+export const Navbar = ({ cartCount = 0, onCategoryChange, onCartClick, onProfileClick, onHomeClick }) => {
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { user, isAuthenticated } = useAuth();
 
-//   create genres or category for quick search
-//   this will be used in the dropdown menu
-// define  a genre object with id and name
-//   id will be used to filter the books
-//   name will be used to display the genre name
+  //   create genres or category for quick search
+  //   this will be used in the dropdown menu
+  // define  a genre object with id and name
+  //   id will be used to filter the books
+  //   name will be used to display the genre name
   const genres = [
-    { id: 'all', name: 'All Books'},
+    { id: 'all', name: 'All Books' },
     { id: 'fiction', name: 'Fiction' },
-    { id: 'scifi', name: 'Sci-Fi' },
-    { id: 'mystery', name: 'Mystery' },
-    { id: 'history', name: 'History' },
-    { id: 'kids', name: 'Children' },
+    { id: 'biography', name: 'Biography' },
+    { id: 'motivation', name: 'Motivation' },
+    { id: 'mythology', name: 'Mythology' },
+    { id: 'children', name: 'Children' },
   ];
 
   return (
-    
+
     <nav className="sticky top-0 z-[100] bg-white/90 backdrop-blur-xl border-b border-slate-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
-          
+
           {/* Logo if the store this may changeable*/}
-          <div className="flex-shrink-0 flex items-center gap-2 cursor-pointer">
+          <div
+            onClick={onHomeClick}
+            className="flex-shrink-0 flex items-center gap-2 cursor-pointer"
+          >
             <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-200">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
@@ -38,10 +43,22 @@ export const Navbar = ({ cartCount = 0, onCategoryChange, onCartClick }) => {
 
           {/* Navigation Links & Dropdown */}
           <div className="hidden md:flex items-center gap-8 mx-8">
-            <button className="text-sm font-bold text-slate-600 hover:text-indigo-600 transition-colors">Home</button>
-            
+            <button
+              onClick={onHomeClick}
+              className="text-sm font-bold text-slate-600 hover:text-indigo-600 transition-colors"
+            >
+              Home
+            </button>
+
+            <button
+              onClick={() => onProfileClick('seller')}
+              className="text-sm font-bold text-slate-600 hover:text-indigo-600 transition-colors"
+            >
+              Seller
+            </button>
+
             {/* Genre Dropdown Trigger on mouse enter it open and on mouse leave it close*/}
-            <div 
+            <div
               className="relative"
               onMouseEnter={() => setIsDropdownOpen(true)}
               onMouseLeave={() => setIsDropdownOpen(false)}
@@ -70,8 +87,8 @@ export const Navbar = ({ cartCount = 0, onCategoryChange, onCartClick }) => {
                 </div>
               )}
             </div>
-            
-            <button className="text-sm font-bold text-slate-600 hover:text-indigo-600 transition-colors">Bestsellers</button>
+
+
           </div>
 
           {/* Search Bar */}
@@ -93,7 +110,7 @@ export const Navbar = ({ cartCount = 0, onCategoryChange, onCartClick }) => {
 
           {/* User & Cart Actions */}
           <div className="flex items-center gap-1 sm:gap-3">
-            <button 
+            <button
               onClick={onCartClick}
               className="relative p-2.5 text-slate-600 hover:bg-slate-50 rounded-2xl transition-all">
               <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -106,10 +123,17 @@ export const Navbar = ({ cartCount = 0, onCategoryChange, onCartClick }) => {
               )}
             </button>
             {/* User Profile this is mainly for the user to see their profile */}
-            <button className="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center text-slate-600 hover:bg-slate-900 hover:text-white transition-all">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
+            <button
+              onClick={onProfileClick}
+              className={`w-10 h-10 ${isAuthenticated ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600'} rounded-xl flex items-center justify-center hover:bg-slate-900 hover:text-white transition-all`}
+            >
+              {isAuthenticated ? (
+                <span className="text-xs font-bold">{user?.name?.charAt(0).toUpperCase()}</span>
+              ) : (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+              )}
             </button>
           </div>
 
