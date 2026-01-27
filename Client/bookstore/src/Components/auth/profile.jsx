@@ -4,13 +4,21 @@ import { useAuth } from '../../Context/authContext';
 export const Profile = ({ onLogoutSuccess, onAdminClick }) => {
   const { user, logout } = useAuth();
 
+  // Get current month and year dynamically
+  const currentMonthYear = new Date().toLocaleString('default', { month: 'long', year: 'numeric' });
+
   // Sample data if user prop is empty (though AuthContext should handle this)
   const userData = user || {
     name: "Guest User",
     email: "guest@example.com",
-    joinedDate: "January 2026",
+    joinedDate: currentMonthYear,
     totalOrders: 0
   };
+
+  // Format the date if it exists in the user object (usually user.date from MongoDB)
+  const formattedJoinedDate = user?.date
+    ? new Date(user.date).toLocaleString('default', { month: 'long', year: 'numeric' })
+    : (user?.joinedDate || currentMonthYear);
 
   const handleLogout = () => {
     logout();
@@ -46,7 +54,7 @@ export const Profile = ({ onLogoutSuccess, onAdminClick }) => {
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-4 bg-slate-50 rounded-2xl">
                   <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Member Since</p>
-                  <p className="text-slate-900 font-bold">{userData.joinedDate || 'January 2024'}</p>
+                  <p className="text-slate-900 font-bold">{formattedJoinedDate}</p>
                 </div>
                 <div className="p-4 bg-slate-50 rounded-2xl">
                   <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Orders</p>

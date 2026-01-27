@@ -6,7 +6,7 @@ export const Order = ({ cartItems = [], totalAmount = 0, onBackToStore }) => {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
-          <button 
+          <button
             onClick={onBackToStore}
             className="p-2 hover:bg-white rounded-full transition-colors"
           >
@@ -22,7 +22,7 @@ export const Order = ({ cartItems = [], totalAmount = 0, onBackToStore }) => {
           <div className="lg:col-span-2 space-y-4">
             {cartItems.length > 0 ? (
               cartItems.map((item) => (
-                <div key={item.id} className="bg-white p-4 rounded-2xl border border-slate-100 flex gap-4 items-center">
+                <div key={item._id || item.id} className="bg-white p-4 rounded-2xl border border-slate-100 flex gap-4 items-center">
                   <img src={item.image} alt={item.title} className="w-20 h-28 object-cover rounded-lg" />
                   <div className="flex-1">
                     <h3 className="font-bold text-slate-900">{item.title}</h3>
@@ -55,8 +55,8 @@ export const Order = ({ cartItems = [], totalAmount = 0, onBackToStore }) => {
                 <span>Rs. {totalAmount}</span>
               </div>
             </div>
-            
-            <button 
+
+            <button
               className="w-full mt-8 py-4 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-100"
               onClick={() => alert('Order Placed Successfully!')}
             >

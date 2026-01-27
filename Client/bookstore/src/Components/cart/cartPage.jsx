@@ -45,9 +45,9 @@ export const CartPage = ({ onCheckout, onBackToStore }) => {
             {cartItems.length > 0 ? (
               cartItems.map((item) => (
                 <CartItem
-                  key={item.id}
+                  key={item._id || item.id}
                   item={item}
-                  onRemove={() => handleRemove(item.id, item.title)}
+                  onRemove={() => handleRemove(item._id || item.id, item.title)}
                   onUpdateQuantity={(id, q) => handleUpdateQuantity(id, q, item.title)}
                 />
               ))

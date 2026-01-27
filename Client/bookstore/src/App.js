@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import "./index.css";
-import { Toaster } from 'react-hot-toast';
-import toast from 'react-hot-toast';
+import { Toaster, toast } from 'react-hot-toast';
 // Components
 import { BookDetails } from './Components/product/bookDetails';
 import { Loader } from './Components/common/loader';

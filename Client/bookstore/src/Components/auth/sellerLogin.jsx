@@ -84,8 +84,25 @@ export const SellerLogin = ({ onLoginSuccess, onBackToStore }) => {
                 </button>
 
                 <div className="mt-8 p-4 bg-indigo-50 rounded-xl border border-indigo-100">
-                    <p className="text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-1">Notice</p>
-                    <p className="text-xs text-indigo-600 font-bold">Please use your registered admin email and password.</p>
+                    <div className="flex justify-between items-center mb-2">
+                        <p className="text-[10px] font-black text-indigo-400 uppercase tracking-widest">Demo Access</p>
+                        <button
+                            onClick={() => setCredentials({ email: 'admin@gmail.com', password: 'admin' })}
+                            className="text-[10px] bg-indigo-600 text-white px-2 py-1 rounded-md hover:bg-indigo-700 transition-colors font-bold uppercase"
+                        >
+                            Auto Fill
+                        </button>
+                    </div>
+                    <div className="space-y-1">
+                        <p className="text-xs text-indigo-800 font-bold flex justify-between">
+                            <span>Email:</span>
+                            <span className="text-indigo-600">admin@gmail.com</span>
+                        </p>
+                        <p className="text-xs text-indigo-800 font-bold flex justify-between">
+                            <span>Password:</span>
+                            <span className="text-indigo-600">admin</span>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>

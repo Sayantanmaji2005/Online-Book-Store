@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const { Book } = require('../Models/book'); // Destructuring because your model exports { Book }
 
 const getBooks = async (req, res) => {
@@ -17,13 +18,29 @@ const addBook = async (req, res) => {
 };
 
 const updateBook = async (req, res) => {
-    const book = await Book.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    let book;
+    if (mongoose.Types.ObjectId.isValid(req.params.id)) {
+        book = await Book.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    }
+
+    if (!book) {
+        book = await Book.findOneAndUpdate({ id: req.params.id }, req.body, { new: true });
+    }
+
     if (!book) return res.status(404).json({ error: "Book not found" });
     res.json(book);
 };
 
 const deleteBook = async (req, res) => {
-    const book = await Book.findByIdAndDelete(req.params.id);
+    let book;
+    if (mongoose.Types.ObjectId.isValid(req.params.id)) {
+        book = await Book.findByIdAndDelete(req.params.id);
+    }
+
+    if (!book) {
+        book = await Book.findOneAndDelete({ id: req.params.id });
+    }
+
     if (!book) return res.status(404).json({ error: "Book not found" });
     res.json({ message: "Book deleted", book });
 };
