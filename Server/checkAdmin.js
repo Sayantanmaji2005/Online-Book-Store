@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const User = require('./Models/User');
+const User = require('./Models/user');
 
 async function checkAdmin() {
     try {

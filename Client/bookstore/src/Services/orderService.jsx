@@ -83,5 +83,51 @@ export const orderService = {
         } catch (error) {
             return { success: false, error: error.message };
         }
+    },
+
+    // Admin: Get all orders in the system
+    getAllOrders: async (token) => {
+        try {
+            const response = await fetch(`${ORDERS_API_URL}/admin/all`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.message || 'Failed to fetch all orders');
+            }
+
+            const data = await response.json();
+            return { success: true, data };
+        } catch (error) {
+            return { success: false, error: error.message };
+        }
+    },
+
+    // Admin: Update order status
+    updateOrderStatus: async (orderId, status, token) => {
+        try {
+            const response = await fetch(`${ORDERS_API_URL}/admin/status/${orderId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ status })
+            });
+
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.message || 'Failed to update order status');
+            }
+
+            const data = await response.json();
+            return { success: true, data };
+        } catch (error) {
+            return { success: false, error: error.message };
+        }
     }
 };

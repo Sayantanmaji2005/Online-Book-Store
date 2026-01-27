@@ -2,10 +2,10 @@
 const mongoose = require('mongoose');
 
 const orderSchema = new mongoose.Schema({
-    user: { 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'User', 
-        required: true 
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     },
     items: [
         {
@@ -16,6 +16,17 @@ const orderSchema = new mongoose.Schema({
         }
     ],
     totalAmount: { type: Number, required: true },
+    shippingAddress: {
+        name: { type: String, required: true },
+        email: { type: String, required: true },
+        phone: { type: String, required: true },
+        address: { type: String, required: true },
+        city: { type: String, required: true },
+        postalCode: { type: String, required: true }
+    },
+    paymentDetails: {
+        cardNumber: { type: String } // Storing only last 4 for safety as per frontend
+    },
     status: { type: String, default: 'Pending' }, // Pending, Shipped, Delivered
     date: { type: Date, default: Date.now }
 });

@@ -5,7 +5,7 @@ export const CartItem = ({ item, onRemove, onUpdateQuantity }) => {
   return (
     <div className="bg-white p-4 rounded-xl border border-slate-100 flex gap-4 items-center hover:shadow-md transition-shadow">
       <img src={item.image} alt={item.title} className="w-20 h-28 object-cover rounded-lg" />
-      
+
       <div className="flex-1">
         <h3 className="font-bold text-slate-900">{item.title}</h3>
         <p className="text-sm text-slate-500">{item.author}</p>
@@ -14,7 +14,7 @@ export const CartItem = ({ item, onRemove, onUpdateQuantity }) => {
 
       <div className="flex items-center gap-2 bg-slate-100 rounded-lg p-2">
         <button
-          onClick={() => onUpdateQuantity(item.id, item.quantity - 1)}
+          onClick={() => onUpdateQuantity(item._id || item.id, item.quantity - 1)}
           className="p-1 hover:bg-slate-200 rounded transition-colors"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -23,7 +23,7 @@ export const CartItem = ({ item, onRemove, onUpdateQuantity }) => {
         </button>
         <span className="w-6 text-center font-bold">{item.quantity}</span>
         <button
-          onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
+          onClick={() => onUpdateQuantity(item._id || item.id, item.quantity + 1)}
           className="p-1 hover:bg-slate-200 rounded transition-colors"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -33,7 +33,7 @@ export const CartItem = ({ item, onRemove, onUpdateQuantity }) => {
       </div>
 
       <button
-        onClick={() => onRemove(item.id)}
+        onClick={() => onRemove(item._id || item.id)}
         className="p-2 hover:bg-red-100 rounded-lg transition-colors text-red-600"
       >
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

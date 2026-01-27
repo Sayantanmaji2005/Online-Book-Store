@@ -2,21 +2,30 @@ const mongoose = require('mongoose');
 const User = require('./Models/user');
 
 async function makeAdmin() {
+    // Get email from command line argument
+    const email = process.argv[2];
+
+    if (!email) {
+        console.log('\x1b[33m%s\x1b[0m', 'Usage: node Server/makeAdmin.js <email>');
+        process.exit(1);
+    }
+
     try {
         await mongoose.connect('mongodb://127.0.0.1:27017/online-bookstore');
-        const email = 'subhabratapaul277@gmail.com';
+
         const user = await User.findOneAndUpdate(
             { email: email },
             { role: 'admin' },
             { new: true }
         );
+
         if (user) {
-            console.log(`Success! User ${email} is now an ADMIN.`);
+            console.log('\x1b[32m%s\x1b[0m', `Success! User ${email} is now an ADMIN.`);
         } else {
-            console.log(`User ${email} not found.`);
+            console.log('\x1b[31m%s\x1b[0m', `User ${email} not found. Ensure they are registered first.`);
         }
     } catch (err) {
-        console.error(err);
+        console.error('Database Error:', err.message);
     } finally {
         await mongoose.disconnect();
     }

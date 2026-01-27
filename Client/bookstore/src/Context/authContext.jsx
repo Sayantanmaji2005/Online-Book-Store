@@ -1,4 +1,4 @@
-import React, { createContext, useState, useCallback, useEffect } from 'react';
+import React, { createContext, useState, useCallback, useEffect, useMemo, useContext } from 'react';
 import API_BASE_URL from '../apiConfig';
 
 const AUTH_API_URL = `${API_BASE_URL}/auth`;
@@ -130,7 +130,7 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  const value = {
+  const value = useMemo(() => ({
     user,
     token,
     isLoading,
@@ -140,13 +140,13 @@ export const AuthProvider = ({ children }) => {
     logout,
     updateProfile,
     isAuthenticated: !!user
-  };
+  }), [user, token, isLoading, error, login, register, logout, updateProfile]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => {
-  const context = React.useContext(AuthContext);
+  const context = useContext(AuthContext);
   if (!context) {
     throw new Error('useAuth must be used within an AuthProvider');
   }
